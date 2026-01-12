@@ -1,0 +1,27 @@
+; nude test file
+
+; subtraction word
+let - ( int int -- int ) [ neg + ]
+
+; if word, modified version of choose
+let if ( byte addr -- ) [ [ return ] choose ]
+
+; unsigned multiplication word, using a loop
+let * ( int int -- int ) [
+  dup 0 = [ zap zap 0 return ] if ; return 0 if b is 0
+  swap
+  dup 0 = [ zap zap 0 return ] if ; return 0 if a is 0
+  dup stash ; copy a to return stack -> ( b a ) ( R: a )
+  loop [
+    + ; add a to b -> ( b+a ) ( R: a )
+    restore dup stash 1 - ; peek top of return - 1 -> ( b+a a-1 ) ( R: a )
+    dup 0 = [ break ] if ; if top of stack 0, break -> ( b+a a-1 ) ( R: a )
+    restore swap stash ; ( b+a a ) ( R: a-1 ), then repeat
+  ]
+  zap restore zap ; ( b*a )
+]
+
+6 7 * ; 42 should be on the top of the stack now!
+
+; testing inline mk2
+zap MK2< this is some inline mk2! >MK2 zap

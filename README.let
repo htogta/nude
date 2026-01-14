@@ -1,0 +1,23 @@
+= nude
+
+`nude` is a compiled language for the [ok] virtual machine. It compiles into 
+[MK2] assembly.
+
+[ok]: https://github.com/htogta/ok
+[MK2]: https://github.com/htogta/MK2
+
+`nude` is still under active development, so expect things to change, be 
+unfinished, or buggy.
+
+== usage
+
+If you have [just] installed, you can run `just test` to compile the `test.nude`
+file in this repository.
+
+[just]: https://github.com/casey/just
+
+Otherwise, once you build `nude`'s compiler with `just release`, run:
+
+```
+nude myfile.nude
+```

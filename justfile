@@ -1,7 +1,7 @@
-default: run
+default: test
 
-run: debug
-  ./bin/debug/nude
+test: debug
+  ./bin/debug/nude test.nude
 
 release:
   mkdir -p ./bin/debug

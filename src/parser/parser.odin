@@ -63,6 +63,9 @@ parse_let_stmt :: proc(p: ^Parser) {
       parse_word()
     }
   }
+
+  expect(p, Token_Kind.Right_Bracket)
+  // TODO emit let end
 }
 
 parse_loop :: proc(p: ^Parser) {
@@ -80,6 +83,9 @@ parse_loop :: proc(p: ^Parser) {
       parse_word()
     }
   }
+
+  expect(p, Token_Kind.Right_Bracket)
+  // TODO emit loop end
 }
 
 parse_quote :: proc(p: ^Parser) {

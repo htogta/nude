@@ -2,12 +2,17 @@ package main
 
 import "core:os"
 import "core:fmt"
-
-TESTFILE :: "test.nude"
+import "lexer"
 
 main :: proc() {
+  if len(os.args) != 2 {
+    fmt.println("Error: invalid args, expected a path to a .nude file")
+    os.exit(1)
+  }
+  file_path := os.args[1]
+
   // read file into string
-  source, ok := os.read_entire_file(TESTFILE, context.allocator)
+  source, ok := os.read_entire_file(file_path, context.allocator)
   if !ok {
     fmt.println("Error: could not open file")
     os.exit(1)
@@ -15,7 +20,7 @@ main :: proc() {
   defer delete(source, context.allocator)
   
   // init lexer
-  lexer := Lexer{
+  l := lexer.Lexer{
     source = cast(string)source,
     pos = 0,
     line = 1
@@ -23,11 +28,11 @@ main :: proc() {
 
   // print all tha tokens
   for {
-    tok := next_token(&lexer)
+    tok := lexer.next_token(&l)
 
-    if tok.kind == Token_Kind.EOF do break
+    if tok.kind == lexer.Token_Kind.EOF do break
 
-    if tok.kind == Token_Kind.Error {
+    if tok.kind == lexer.Token_Kind.Error {
       fmt.printfln("Error on line %d: %s", tok.line, tok.text)
       break
     }

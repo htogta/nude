@@ -1,0 +1,96 @@
+( types )
+%def byte #00000001 %end
+%def short #00000002 %end
+%def addr #00000003 %end
+%def int #00000004 %end
+
+( boolean literals )
+%def true #ff %end
+%def false 00 %end
+
+( type conversions )
+%def int2byte PSH1 DRP3 POP1 %end
+%def int2short SWP2 DRP2 %end
+%def int2addr PSH3 DRP1 POP3 %end
+%def byte2int PSH1 #000000 POP1 %end
+%def short2int #0000 SWP2 %end
+%def addr2int PSH3 #00 POP3 %end
+
+( stack shuffling )
+%def zap DRP4 %end
+%def dup DUP4 %end
+%def swap SWP4 %end
+%def stash PSH4 %end
+%def restore POP4 %end
+
+( arithmetic/bitwise operations )
+%def plus ADD4 %end
+%def ampersand AND4 %end
+%def caret XOR4 %end
+%def neg #ffffffff XOR4 #00000001 ADD4 %end
+%def lsh #10 SHF4 %end
+%def rsh #01 SHF4 %end
+
+( comparison and boolean operations )
+%def equals 
+  CMP4 ( top is 0 if equal, 1 or ff otherwise )
+  #01 AND1 ( 0 if equal, 1 otherwise )
+  #ff XOR1 #01 ADD1 ( 0 or ff )
+%end
+
+%def greater ( a b -- bool )
+  CMP4 ( top is 1 if a>b, 0 or ff otherwise )
+  #fe ADD1 ( top ff if a>b, fe or fd otherwise )
+  #ff CMP1 ( top 0 if a>b, ff otherwise )
+  #ff XOR1
+%end
+
+%def greater_equal 
+  CMP4 ( top 0 or 1 if a>=b, ff otherwise )
+  #02 AND1 ( top 0 if a>=b, 2 otherwise )
+  #02 CMP1 ( top ff if a>=b, 0 otherwise )
+%end
+
+%def less %greater_equal #ff XOR1 %end
+
+%def less_equal 
+  CMP4 ( top is 0 or ff if a<=b, 1 otherwise )
+  #fe ADD1 ( top fe or fd if a<=b, ff otherwise )
+  #ff CMP1 ( top 0 if a>b, ff otherwise )
+%end
+
+%def not_equal ( a b -- bool )
+  %equals #ff XOR1 ( just do a 'not' on the output of %equals )
+%end
+
+%def bool_not #ff XOR1 %end
+%def bool_and AND1 %end
+%def bool_or #ffff XOR2 AND1 #ff XOR1 %end
+
+( memory manipulation )
+%def byte_at LOD1 %end
+%def short_at LOD2 %end
+%def addr_at LOD3 %end
+%def int_at LOD4 %end
+%def byte_bang STR1 %end
+%def short_bang STR2 %end
+%def addr_bang STR3 %end
+%def int_bang STR4 %end
+%def byte_caret FET1 %end
+%def short_caret FET2 %end
+%def addr_caret FET3 %end
+%def int_caret FET4 %end
+
+( quotations and such )
+%def return POP JMP %end
+%def apply @return-addr PSH JMP .return-addr %end
+
+%def choose
+  PSH PSH
+  #ff AND1 @call-true JMP? DRP
+  POP POP DRP %apply @end JMP ( apply addr-if-false and skip to end )
+  .call-true
+    POP DRP ( discard the addr-if-false quotation )
+    POP %apply ( call the other quotation )
+  .end
+%end

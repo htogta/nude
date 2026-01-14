@@ -1,4 +1,4 @@
-package main
+package lexer
 
 // individual token types
 Token_Kind :: enum {
@@ -32,9 +32,6 @@ Token_Kind :: enum {
   Byte_Load, Short_Load, Addr_Load, Int_Load, // end in @, read from RAM
   Byte_Store, Short_Store, Addr_Store, Int_Store, // end in !, write to RAM
   Byte_Fetch, Short_Fetch, Addr_Fetch, Int_Fetch, // end in ^, write to flash
-
-  // I/O operations
-  Getchar, Putchar,
   
   // these are used for quotations and subroutine definitions
   Left_Bracket, // [
@@ -185,8 +182,6 @@ get_token_kind :: proc(s: string) -> Token_Kind {
     case "short^": return Token_Kind.Short_Fetch
     case "addr^": return Token_Kind.Addr_Fetch
     case "int^": return Token_Kind.Int_Fetch
-    case "getchar": return Token_Kind.Getchar
-    case "putchar": return Token_Kind.Putchar
     case "loop": return Token_Kind.Loop
     case "choose": return Token_Kind.Choose
     case "byte": return Token_Kind.Byte

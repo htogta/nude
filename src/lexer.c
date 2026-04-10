@@ -220,6 +220,44 @@ static TokenKind get_token_kind(const char* lexeme, int length) {
 
 }
 
+static Token read_string(Lexer* l) {
+  int start_line = l->line;
+
+  advance(l); // consume open quote
+
+  int start_pos = l->pos;
+
+  for (;;) {
+    char ch = peek(l);
+
+    if (ch == '\0') {
+      // TODO unterminated string error
+      break;
+    }
+
+    if (ch == '"') break;
+
+    if (ch == '\\') {
+      advance(l); // consume '\'
+      if (peek(l) != '\0') advance(l); // skip escaped character (TODO for now)
+      continue;
+    }
+
+    advance(l);
+  }
+
+  int length = l->pos - start_pos;
+
+  advance(l); // consume "
+
+  Token tok;
+  tok.kind = TOKEN_STRING;
+  tok.start = l->source + start_pos; // NOTE: excludes quotes
+  tok.length = length;
+  tok.line = start_line;
+  return tok;
+}
+
 static Token read_word(Lexer* l) {
   int start_pos = l->pos;
   int start_line = l->line;
@@ -269,6 +307,8 @@ Token next_token(Lexer* l) {
       skip_comment(l);
       continue;
     }
+
+    if (ch == '"') return read_string(l);
     
     return read_word(l);
   }

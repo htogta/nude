@@ -2,6 +2,7 @@
 
 hello: ( bool -> byte short ) [ ; here we go!
   #09c274AB zap swap load
+  dup "this is a string literal \" yes" dup
 ]
 
 hello not 44 -437 int 

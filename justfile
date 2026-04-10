@@ -1,15 +1,11 @@
 default: test
 
-test: debug
-  ./bin/debug/nude test.nude
+test: build
+  ./bin/nude test.nude
 
-release:
-  mkdir -p ./bin/debug
-  odin build src -out:./bin/release/nude
-
-debug:
-  mkdir -p ./bin/debug
-  odin build src -out:./bin/debug/nude -debug
+build:
+  mkdir -p bin
+  cc src/main.c src/lexer.c -o bin/nude
 
 clean:
   rm -rf bin

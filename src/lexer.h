@@ -75,5 +75,6 @@ typedef struct {
 
 Lexer init_lexer(const char* source);
 Token next_token(Lexer* l);
+const char* token_to_str(TokenKind kind);
 
 #endif // NUDE_LEXER_H

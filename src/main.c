@@ -35,7 +35,7 @@ int main(int argc, const char* argv[]) {
     } else {
       printf("   | ");
     }
-    printf("%2d '%.*s'\n", token.kind, token.length, token.start); 
+    printf("%s '%.*s'\n", token_to_str(token.kind), token.length, token.start); 
 
     if (token.kind == TOKEN_EOF) break;
   }

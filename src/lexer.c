@@ -273,3 +273,71 @@ Token next_token(Lexer* l) {
     return read_word(l);
   }
 }
+
+// for debug purposes only
+// TODO wrap in an ifdef?
+const char* token_to_str(TokenKind kind) {
+  switch (kind) {
+    case TOKEN_WORD: return "<WORD>";
+    case TOKEN_LBRACKET: return "<LBRACKET>";
+    case TOKEN_RBRACKET: return "<RBRACKET>";
+    case TOKEN_TYPE: return "<TYPE>";
+    case TOKEN_LOAD: return "<LOAD>";
+    case TOKEN_WORDDEF: return "<WORDDEF>";
+    case TOKEN_ARROW: return "<ARROW>";
+    case TOKEN_LPAREN: return "<LPAREN>";
+    case TOKEN_RPAREN: return "<RPAREN>";
+    case TOKEN_BOOL: return "<BOOL>";
+    case TOKEN_BYTE: return "<BYTE>";
+    case TOKEN_SHORT: return "<SHORT>";
+    case TOKEN_ADDR: return "<ADDR>";
+    case TOKEN_INT: return "<INT>";
+    case TOKEN_LOOP: return "<LOOP>";
+    case TOKEN_BREAK: return "<BREAK>";
+    case TOKEN_CHOOSE: return "<CHOOSE>";
+    case TOKEN_CONTINUE: return "<CONTINUE>";
+    case TOKEN_RETURN: return "<RETURN>";
+    case TOKEN_APPLY: return "<APPLY>";
+    case TOKEN_SELF: return "<SELF>";
+    case TOKEN_END: return "<END>";
+    case TOKEN_ZAP: return "<ZAP>";
+    case TOKEN_DUP: return "<DUP>";
+    case TOKEN_RECURSE: return "<RECURSE>";
+    case TOKEN_SWAP: return "<SWAP>";
+    case TOKEN_STASH: return "<STASH>";
+    case TOKEN_RESTORE: return "<RESTORE>";
+    case TOKEN_PLUS: return "<PLUS>";
+    case TOKEN_AMPERSAND: return "<AMPERSAND>";
+    case TOKEN_CARET: return "<CARET>";
+    case TOKEN_NEG: return "<NEG>";
+    case TOKEN_LSH: return "<LSH>";
+    case TOKEN_RSH: return "<RSH>";
+    case TOKEN_EQUALS: return "<EQUALS>";
+    case TOKEN_GREATER: return "<GREATER>";
+    case TOKEN_LESS: return "<LESS>";
+    case TOKEN_GREATER_EQUALS: return "<GREATER_EQUALS>";
+    case TOKEN_LESS_EQUALS: return "<LESS_EQUALS>";
+    case TOKEN_NOT_EQUALS: return "<NOT_EQUALS>";
+    case TOKEN_FALSE: return "<FALSE>";
+    case TOKEN_AND: return "<AND>";
+    case TOKEN_OR: return "<OR>";
+    case TOKEN_NOT: return "<NOT>";
+    case TOKEN_BYTE_AT: return "<BYTE_AT>";
+    case TOKEN_SHORT_AT: return "<SHORT_AT>";
+    case TOKEN_ADDR_AT: return "<ADDR_AT>";
+    case TOKEN_INT_AT: return "<INT_AT>";
+    case TOKEN_BYTE_BANG: return "<BYTE_BANG>";
+    case TOKEN_SHORT_BANG: return "<SHORT_BANG>";
+    case TOKEN_ADDR_BANG: return "<ADDR_BANG>";
+    case TOKEN_INT_BANG: return "<INT_BANG>";
+    case TOKEN_BYTE_CARET: return "<BYTE_CARET>";
+    case TOKEN_SHORT_CARET: return "<SHORT_CARET>";
+    case TOKEN_ADDR_CARET: return "<ADDR_CARET>";
+    case TOKEN_INT_CARET: return "<INT_CARET>";
+    case TOKEN_DECIMAL: return "<DECIMAL>";
+    case TOKEN_HEX: return "<HEX>";
+    case TOKEN_TRUE: return "<TRUE>";
+    case TOKEN_STRING: return "<STRING>";
+    case TOKEN_EOF: return "<EOF>";
+  }
+}
